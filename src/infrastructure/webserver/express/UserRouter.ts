@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { container } from "tsyringe";
 
-import { PostUserController } from "../../../application/controllers/post-user/PostUserController";
+import { PostUserSignUpController } from "../../../application/controllers/post-user-sign-up/PostUserSignUpController";
 
 const UserRouter = Router();
 
-UserRouter.post("/", container.resolve(PostUserController).route);
+UserRouter.post("/sign-up", container.resolve(PostUserSignUpController).route);
 
 export { UserRouter };

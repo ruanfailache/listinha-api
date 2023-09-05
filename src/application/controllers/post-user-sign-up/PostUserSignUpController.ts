@@ -3,20 +3,20 @@ import { autoInjectable } from "tsyringe";
 
 import { Controller } from "../../../core/protocols/Controller";
 import { CreateUserUseCase } from "../../../domain/use-cases/create-user/CreateUserUseCase";
-import { IPostUser } from "../../dtos/IPostUser";
-import { PostUserValidator } from "../../validators/PostUserValidator";
+import { IPostUserSignUp } from "../../dtos/IPostUserSignUp";
+import { PostUserSignUpValidator } from "../../validators/PostUserSignUpValidator";
 
 @autoInjectable()
-export class PostUserController extends Controller {
+export class PostUserSignUpController extends Controller {
     constructor(
-        private readonly postUserValidator: PostUserValidator,
+        private readonly postUserSignUpValidator: PostUserSignUpValidator,
         private readonly createUserUseCase: CreateUserUseCase,
     ) {
         super();
     }
 
     async handler(request: e.Request, response: e.Response): Promise<void> {
-        const { email, password, name } = this.postUserValidator.validate<IPostUser>(request.body);
+        const { email, password, name } = this.postUserSignUpValidator.validate<IPostUserSignUp>(request.body);
 
         const result = await this.createUserUseCase.execute({
             email,
