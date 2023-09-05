@@ -16,14 +16,8 @@ export class PostUserSignUpController extends Controller {
     }
 
     async handler(request: e.Request, response: e.Response): Promise<void> {
-        const { email, password, name } = this.postUserSignUpValidator.validate<IPostUserSignUp>(request.body);
-
-        const result = await this.createUserUseCase.execute({
-            email,
-            name,
-            password,
-        });
-
+        const validatorResult = this.postUserSignUpValidator.validate<IPostUserSignUp>(request.body);
+        const result = await this.createUserUseCase.execute(validatorResult);
         response.send(result);
     }
 }

@@ -1,37 +1,40 @@
 import { autoInjectable, singleton } from "tsyringe";
 
-import { IPostUserSignUp } from "../../../application/dtos/IPostUserSignUp";
+import { IPostUserSignIn } from "../../../application/dtos/IPostUserSignIn";
 import { HashAdapter } from "../../../core/adapters/hash/HashAdapter";
 import { ConflictError } from "../../../core/errors/http/ConflictError";
+import { UnauthorizedError } from "../../../core/errors/http/UnauthorizedError";
 import { UserRepository } from "../../../infrastructure/database/repositories/UserRepository";
 import { CreateSessionUseCase } from "../create-session/CreateSessionUseCase";
 
 @singleton()
 @autoInjectable()
-export class CreateUserUseCase {
+export class AuthenticateUserUseCase {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly createSessionUseCase: CreateSessionUseCase,
     ) {}
 
-    async execute({ email, name, password }: IPostUserSignUp) {
+    async execute({ email, password }: IPostUserSignIn) {
         const foundUser = await this.userRepository.findByEmail(email);
 
-        if (foundUser) {
+        if (!foundUser) {
             throw new ConflictError({
-                message: "User already exists!",
+                message: "User credentials are invalid!",
             });
         }
 
-        const createdUser = await this.userRepository.create({
-            email,
-            name,
-            password: HashAdapter.encrypt(password),
-        });
+        const isCorrectPassword = HashAdapter.compare(password, foundUser.password);
+
+        if (!isCorrectPassword) {
+            throw new UnauthorizedError({
+                message: "User credentials are invalid!",
+            });
+        }
 
         return {
-            userId: createdUser.id,
-            token: await this.createSessionUseCase.execute(createdUser.id, {
+            userId: foundUser.id,
+            token: await this.createSessionUseCase.execute(foundUser.id, {
                 email,
                 password,
             }),

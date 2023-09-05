@@ -27,6 +27,6 @@ SessionModel.init(
     },
 );
 
-UserModel.hasMany(SessionModel, { as: "sessions" });
+UserModel.hasOne(SessionModel, { as: "session" });
 
 export { SessionModel };
