@@ -1,6 +1,6 @@
 import { singleton } from "tsyringe";
 
-import { ICreateUser } from "../../../domain/dtos/User";
+import { ICreateUser } from "../../../domain/entities/User";
 import { UserModel } from "../models/UserModel";
 
 @singleton()

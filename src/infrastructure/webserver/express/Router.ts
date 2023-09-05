@@ -1,6 +1,6 @@
 import e from "express";
 
-import UserRouter from "./UserRouter";
+import { UserRouter } from "./UserRouter";
 
 const Router = e.Router();
 
