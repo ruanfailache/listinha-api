@@ -1,11 +1,19 @@
-import { singleton } from "tsyringe";
+import { sessions } from "@prisma/client";
+import { autoInjectable, singleton } from "tsyringe";
 
-import { SessionModel } from "../models/SessionModel";
+import { PrismaDatabase } from "../config/PrismaDatabase";
 
 @singleton()
+@autoInjectable()
 export class SessionRepository {
-    async create(token: string): Promise<SessionModel> {
-        const session = await SessionModel.create({ token });
-        return session.save();
+    constructor(private database: PrismaDatabase) {}
+
+    async create(userId: string, token: string): Promise<sessions> {
+        return this.database.client.sessions.create({
+            data: {
+                token,
+                userId,
+            },
+        });
     }
 }

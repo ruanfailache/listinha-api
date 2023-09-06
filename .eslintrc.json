@@ -2,7 +2,7 @@
     "env": {
         "browser": true,
         "es2021": true,
-        "jest": true
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
@@ -18,6 +18,22 @@
         "@typescript-eslint",
         "eslint-plugin-import-helpers"
     ],
+    "overrides": [
+        {
+            "files": [
+                "tests/**"
+            ],
+            "plugins": [
+                "jest"
+            ],
+            "extends": [
+                "plugin:jest/recommended"
+            ],
+            "rules": {
+                "jest/prefer-expect-assertions": "off"
+            }
+        }
+    ],
     "rules": {
         "import-helpers/order-imports": [
             "error",
@@ -25,10 +41,8 @@
                 "newlinesBetween": "always",
                 "groups": [
                     "module",
-                    [
-                        "parent",
-                        "sibling"
-                    ],
+                    "parent",
+                    "sibling",
                     "index"
                 ],
                 "alphabetize": {

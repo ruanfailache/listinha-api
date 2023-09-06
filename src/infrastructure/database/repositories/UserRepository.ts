@@ -1,39 +1,26 @@
+import { users } from "@prisma/client";
 import { singleton } from "tsyringe";
 
 import { ICreateUser } from "../../../domain/entities/User";
-import { SessionModel } from "../models/SessionModel";
-import { UserModel } from "../models/UserModel";
+import { PrismaDatabase } from "../config/PrismaDatabase";
 
 @singleton()
 export class UserRepository {
-    async findByEmail(email: string): Promise<UserModel | null> {
-        return UserModel.findOne({
-            where: {
+    constructor(private database: PrismaDatabase) {}
+
+    async findByEmail(email: string): Promise<users | null> {
+        return this.database.client.users.findUnique({
+            where: { email },
+        });
+    }
+
+    async create({ email, name, password }: ICreateUser): Promise<users> {
+        return this.database.client.users.create({
+            data: {
                 email,
+                name,
+                password,
             },
         });
-    }
-
-    async create({ email, name, password }: ICreateUser): Promise<UserModel> {
-        const user = await UserModel.create({
-            email,
-            name,
-            password,
-        });
-
-        return user.save();
-    }
-
-    async updateSession(userId: string, session: SessionModel): Promise<void> {
-        await UserModel.update(
-            {
-                session,
-            },
-            {
-                where: {
-                    id: userId,
-                },
-            },
-        );
     }
 }

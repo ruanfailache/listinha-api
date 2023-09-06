@@ -1,10 +1,10 @@
 import e from "express";
 import { autoInjectable } from "tsyringe";
 
-import { Controller } from "../../../core/protocols/Controller";
-import { CreateUserUseCase } from "../../../domain/use-cases/create-user/CreateUserUseCase";
-import { IPostUserSignUp } from "../../dtos/IPostUserSignUp";
-import { PostUserSignUpValidator } from "../../validators/PostUserSignUpValidator";
+import { Controller } from "../../core/protocols/Controller";
+import { CreateUserUseCase } from "../../domain/use-cases/CreateUserUseCase";
+import { IPostUserSignUp } from "../dtos/IPostUserSignUp";
+import { PostUserSignUpValidator } from "../validators/PostUserSignUpValidator";
 
 @autoInjectable()
 export class PostUserSignUpController extends Controller {
@@ -18,6 +18,6 @@ export class PostUserSignUpController extends Controller {
     async handler(request: e.Request, response: e.Response): Promise<void> {
         const validatorResult = this.postUserSignUpValidator.validate<IPostUserSignUp>(request.body);
         const result = await this.createUserUseCase.execute(validatorResult);
-        response.send(result);
+        response.status(201).send(result);
     }
 }

@@ -1,11 +1,11 @@
 import { autoInjectable, singleton } from "tsyringe";
 
-import { IPostUserSignIn } from "../../../application/dtos/IPostUserSignIn";
-import { HashAdapter } from "../../../core/adapters/hash/HashAdapter";
-import { ConflictError } from "../../../core/errors/http/ConflictError";
-import { UnauthorizedError } from "../../../core/errors/http/UnauthorizedError";
-import { UserRepository } from "../../../infrastructure/database/repositories/UserRepository";
-import { CreateSessionUseCase } from "../create-session/CreateSessionUseCase";
+import { IPostUserSignIn } from "../../application/dtos/IPostUserSignIn";
+import { HashAdapter } from "../../core/adapters/HashAdapter";
+import { ConflictError } from "../../core/errors/http/ConflictError";
+import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
+import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
+import { CreateSessionUseCase } from "./CreateSessionUseCase";
 
 @singleton()
 @autoInjectable()
