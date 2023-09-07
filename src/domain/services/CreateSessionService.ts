@@ -6,7 +6,7 @@ import { SessionRepository } from "../../infrastructure/database/repositories/Se
 
 @singleton()
 @autoInjectable()
-export class CreateSessionUseCase {
+export class CreateSessionService {
     constructor(private readonly sessionRepository: SessionRepository) {}
 
     async execute(userId: string, payload: Record<string, string>) {

@@ -20,4 +20,18 @@ export class UserFactory {
             password: HashAdapter.encrypt(fakePassword),
         });
     }
+
+    static getFakeUser(params?: Partial<users>): users {
+        return {
+            id: faker.string.uuid(),
+            email: faker.internet.email(),
+            name: faker.person.fullName(),
+            password: faker.internet.password(),
+            createdAt: faker.date.recent({ days: 10 }),
+            updatedAt: faker.date.recent({ days: 3 }),
+            isActivated: faker.datatype.boolean(),
+            addressId: null,
+            ...params,
+        };
+    }
 }

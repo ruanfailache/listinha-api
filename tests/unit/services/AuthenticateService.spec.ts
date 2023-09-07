@@ -3,15 +3,16 @@ import { container } from "tsyringe";
 
 import { HashAdapter } from "../../../src/core/adapters/HashAdapter";
 import { UnauthorizedError } from "../../../src/core/errors/http/UnauthorizedError";
-import { AuthenticateUseCase } from "../../../src/domain/use-cases/AuthenticateUseCase";
-import { CreateSessionUseCase } from "../../../src/domain/use-cases/CreateSessionUseCase";
+import { AuthenticateService } from "../../../src/domain/services/AuthenticateService";
+import { CreateSessionService } from "../../../src/domain/services/CreateSessionService";
 import { UserRepository } from "../../../src/infrastructure/database/repositories/UserRepository";
+import { UserFactory } from "../../factories/UserFactory";
 
-describe("AuthenticateUseCase", () => {
+describe("AuthenticateService", () => {
     const userRepository = container.resolve(UserRepository);
-    const createSessionUseCase = container.resolve(CreateSessionUseCase);
+    const createSessionUseCase = container.resolve(CreateSessionService);
 
-    const sut = new AuthenticateUseCase(userRepository, createSessionUseCase);
+    const sut = new AuthenticateService(userRepository, createSessionUseCase);
 
     test("Should ensure throws UnauthorizedError on email not registered", async () => {
         jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce(null);
@@ -29,14 +30,7 @@ describe("AuthenticateUseCase", () => {
     });
 
     test("Should ensure validate provided password", async () => {
-        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce({
-            id: faker.string.uuid(),
-            email: faker.internet.email(),
-            name: faker.person.fullName(),
-            password: faker.internet.password(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        });
+        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce(UserFactory.getFakeUser());
 
         jest.spyOn(HashAdapter, "compare").mockReturnValueOnce(false);
 
@@ -56,14 +50,11 @@ describe("AuthenticateUseCase", () => {
         const userId = faker.string.uuid();
         const token = faker.string.uuid();
 
-        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce({
-            id: userId,
-            email: faker.internet.email(),
-            name: faker.person.fullName(),
-            password: faker.internet.password(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        });
+        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce(
+            UserFactory.getFakeUser({
+                id: userId,
+            }),
+        );
 
         jest.spyOn(HashAdapter, "compare").mockReturnValueOnce(true);
 

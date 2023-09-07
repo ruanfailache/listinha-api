@@ -2,13 +2,13 @@ import { faker } from "@faker-js/faker/locale/pt_BR";
 import jwt from "jsonwebtoken";
 import { container } from "tsyringe";
 
-import { CreateSessionUseCase } from "../../../src/domain/use-cases/CreateSessionUseCase";
+import { CreateSessionService } from "../../../src/domain/services/CreateSessionService";
 import { SessionRepository } from "../../../src/infrastructure/database/repositories/SessionRepository";
 
-describe("CreateSessionUseCase", () => {
+describe("CreateSessionService", () => {
     const sessionRepository = container.resolve(SessionRepository);
 
-    const sut = new CreateSessionUseCase(sessionRepository);
+    const sut = new CreateSessionService(sessionRepository);
 
     test("Should ensure return correct values", async () => {
         jest.spyOn(sessionRepository, "create").mockResolvedValueOnce({

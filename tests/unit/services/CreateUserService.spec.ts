@@ -3,25 +3,20 @@ import { container } from "tsyringe";
 
 import { HashAdapter } from "../../../src/core/adapters/HashAdapter";
 import { ConflictError } from "../../../src/core/errors/http/ConflictError";
-import { CreateSessionUseCase } from "../../../src/domain/use-cases/CreateSessionUseCase";
-import { CreateUserUseCase } from "../../../src/domain/use-cases/CreateUserUseCase";
+import { CreateSessionService } from "../../../src/domain/services/CreateSessionService";
+import { CreateUserService } from "../../../src/domain/services/CreateUserService";
 import { UserRepository } from "../../../src/infrastructure/database/repositories/UserRepository";
+import { UserFactory } from "../../factories/UserFactory";
 
-describe("CreateUserUseCase", () => {
+describe("CreateUserService", () => {
     const userRepository = container.resolve(UserRepository);
-    const createSessionUseCase = container.resolve(CreateSessionUseCase);
+    const createSessionUseCase = container.resolve(CreateSessionService);
 
-    const sut = new CreateUserUseCase(userRepository, createSessionUseCase);
+    const sut = new CreateUserService(userRepository, createSessionUseCase);
 
     test("Should ensure throws ConflictError on email already registered", async () => {
-        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce({
-            id: faker.string.uuid(),
-            email: faker.internet.email(),
-            name: faker.person.fullName(),
-            password: faker.internet.password(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        });
+        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce(UserFactory.getFakeUser());
+
         try {
             await sut.execute({
                 email: faker.internet.email(),
@@ -43,14 +38,11 @@ describe("CreateUserUseCase", () => {
 
         jest.spyOn(HashAdapter, "encrypt").mockReturnValueOnce(faker.string.uuid());
 
-        jest.spyOn(userRepository, "create").mockResolvedValueOnce({
-            id: userId,
-            email: faker.internet.email(),
-            name: faker.person.fullName(),
-            password: faker.internet.password(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        });
+        jest.spyOn(userRepository, "create").mockResolvedValueOnce(
+            UserFactory.getFakeUser({
+                id: userId,
+            }),
+        );
 
         jest.spyOn(createSessionUseCase, "execute").mockResolvedValueOnce(token);
 

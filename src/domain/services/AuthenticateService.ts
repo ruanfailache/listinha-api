@@ -5,14 +5,14 @@ import { HashAdapter } from "../../core/adapters/HashAdapter";
 import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
 import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
 
-import { CreateSessionUseCase } from "./CreateSessionUseCase";
+import { CreateSessionService } from "./CreateSessionService";
 
 @singleton()
 @autoInjectable()
-export class AuthenticateUseCase {
+export class AuthenticateService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly createSessionUseCase: CreateSessionUseCase,
+        private readonly createSessionUseCase: CreateSessionService,
     ) {}
 
     async execute({ email, password }: IPostUserSignIn) {

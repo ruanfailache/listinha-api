@@ -2,7 +2,7 @@ import e from "express";
 import { autoInjectable } from "tsyringe";
 
 import { Controller } from "../../core/protocols/Controller";
-import { AuthenticateUseCase } from "../../domain/use-cases/AuthenticateUseCase";
+import { AuthenticateService } from "../../domain/services/AuthenticateService";
 import { IPostUserSignIn } from "../dtos/IPostUserSignIn";
 import { PostUserSignInValidator } from "../validators/PostUserSignInValidator";
 
@@ -10,7 +10,7 @@ import { PostUserSignInValidator } from "../validators/PostUserSignInValidator";
 export class PostUserSignInController extends Controller {
     constructor(
         private readonly postUserSignInValidator: PostUserSignInValidator,
-        private readonly authenticateUserUseCase: AuthenticateUseCase,
+        private readonly authenticateUserUseCase: AuthenticateService,
     ) {
         super();
     }

@@ -5,14 +5,14 @@ import { HashAdapter } from "../../core/adapters/HashAdapter";
 import { ConflictError } from "../../core/errors/http/ConflictError";
 import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
 
-import { CreateSessionUseCase } from "./CreateSessionUseCase";
+import { CreateSessionService } from "./CreateSessionService";
 
 @singleton()
 @autoInjectable()
-export class CreateUserUseCase {
+export class CreateUserService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly createSessionUseCase: CreateSessionUseCase,
+        private readonly createSessionUseCase: CreateSessionService,
     ) {}
 
     async execute({ email, name, password }: IPostUserSignUp) {
