@@ -1,8 +1,7 @@
 {
     "env": {
         "browser": true,
-        "es2021": true,
-        "jest/globals": true
+        "es2021": true
     },
     "extends": [
         "eslint:recommended",
@@ -17,22 +16,6 @@
     "plugins": [
         "@typescript-eslint",
         "eslint-plugin-import-helpers"
-    ],
-    "overrides": [
-        {
-            "files": [
-                "tests/**"
-            ],
-            "plugins": [
-                "jest"
-            ],
-            "extends": [
-                "plugin:jest/recommended"
-            ],
-            "rules": {
-                "jest/prefer-expect-assertions": "off"
-            }
-        }
     ],
     "rules": {
         "import-helpers/order-imports": [
