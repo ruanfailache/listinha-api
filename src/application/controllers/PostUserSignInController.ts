@@ -17,7 +17,7 @@ export class PostUserSignInController extends Controller {
 
     async handler(request: e.Request, response: e.Response): Promise<void> {
         const validatorResult = this.postUserSignInValidator.validate<IPostUserSignIn>(request.body);
-        const result = await this.authenticateUserUseCase.execute(validatorResult);
+        const result = await this.authenticateUserUseCase.signIn(validatorResult);
         response.status(201).send(result);
     }
 }
