@@ -11,8 +11,8 @@
         "db:migrate": "prisma migrate dev",
         "db:pull": "prisma db pull",
         "db:generate": "prisma generate",
-        "test:db:push": "dotenv -e .env.test -- npx prisma db push",
-        "dev:db:push": "dotenv -e .env.development -- npx prisma db push",
+        "db:push:test": "dotenv -e .env.test -- npx prisma db push",
+        "db:push:dev": "dotenv -e .env.development -- npx prisma db push",
         "prepare": "husky install"
     },
     "author": {

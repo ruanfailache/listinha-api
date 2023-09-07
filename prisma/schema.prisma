@@ -10,17 +10,39 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model users {
+model addresses {
     id String @id @default(uuid())
 
-    name     String
-    email    String @unique
-    password String
+    city         String
+    neighborhood String
+    region       String
+    state        String
+    zipCode      String @map("zip_code")
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
-    sessions sessions[]
+    users   users[]
+    markets markets[]
+}
+
+model users {
+    id String @id @default(uuid())
+
+    name        String
+    email       String  @unique
+    password    String
+    addressId   String? @map("address_id")
+    isActivated Boolean @default(false) @map("is_activated")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    address addresses? @relation(fields: [addressId], references: [id])
+
+    sessions                sessions[]
+    productLists            productLists[]
+    usersProductInventories usersProductInventories[]
 
     @@index([email])
 }
@@ -35,4 +57,70 @@ model sessions {
     updatedAt DateTime @updatedAt @map("updated_at")
 
     user users @relation(fields: [userId], references: [id])
+}
+
+model products {
+    id String @id @default(uuid())
+
+    name  String
+    value Decimal
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    productLists            productLists[]
+    usersProductInventories usersProductInventories[]
+
+    @@index([name])
+}
+
+model markets {
+    id String @id @default(uuid())
+
+    name      String
+    addressId String? @map("address_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    address addresses? @relation(fields: [addressId], references: [id])
+
+    productLists productLists[]
+
+    @@index([name])
+}
+
+model productLists {
+    id String @id @default(uuid())
+
+    userId    String @map("user_id")
+    productId String @map("product_id")
+    marketId  String @map("market_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    user    users    @relation(fields: [userId], references: [id])
+    product products @relation(fields: [productId], references: [id])
+    market  markets  @relation(fields: [marketId], references: [id])
+
+    @@index([userId])
+    @@map("product_lists")
+}
+
+model usersProductInventories {
+    id String @id @default(uuid())
+
+    userId    String @map("user_id")
+    productId String @map("product_id")
+    quantity  Int
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    user    users    @relation(fields: [userId], references: [id])
+    product products @relation(fields: [productId], references: [id])
+
+    @@index([userId])
+    @@map("users_product_inventories")
 }
