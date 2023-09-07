@@ -1,11 +1,9 @@
 import { faker } from "@faker-js/faker/locale/pt_BR";
 import supertest from "supertest";
 
-import { PrismaDatabase } from "@infrastructure/database/config/PrismaDatabase";
-
+import app from "../../src//app";
+import { PrismaDatabase } from "../../src/infrastructure/database/config/PrismaDatabase";
 import { UserFactory } from "../factories/UserFactory";
-
-import app from "@listinha/app";
 
 afterAll(PrismaDatabase.clearDatabase);
 

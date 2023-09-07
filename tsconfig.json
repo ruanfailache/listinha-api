@@ -4,24 +4,6 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "module": "commonjs",
-        "baseUrl": "./",
-        "paths": {
-            "@listinha/app": [
-                "./src/app.ts"
-            ],
-            "@application/*": [
-                "./src/application/*"
-            ],
-            "@core/*": [
-                "./src/core/*"
-            ],
-            "@domain/*": [
-                "./src/domain/*"
-            ],
-            "@infrastructure/*": [
-                "./src/infrastructure/*"
-            ]
-        },
         "outDir": "./dist",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,

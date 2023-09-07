@@ -6,7 +6,7 @@
     "scripts": {
         "start": "dotenv -e .env -- node ./dist/server.js",
         "build": "tsc",
-        "dev": "dotenv -e .env.development -- nodemon -r tsconfig-paths/register src/server.ts",
+        "dev": "dotenv -e .env.development -- nodemon src/server.ts",
         "test": "dotenv -e .env.test -- jest --passWithNoTests",
         "db:migrate": "prisma migrate dev",
         "db:pull": "prisma db pull",

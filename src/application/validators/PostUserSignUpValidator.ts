@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
 import { z } from "zod";
 
-import { Validator } from "@core/protocols/Validator";
+import { Validator } from "../../core/protocols/Validator";
 
 @singleton()
 export class PostUserSignUpValidator extends Validator {

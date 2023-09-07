@@ -1,10 +1,8 @@
 import e from "express";
 import { autoInjectable } from "tsyringe";
 
-import { Controller } from "@core/protocols/Controller";
-
-import { CreateUserUseCase } from "@domain/use-cases/CreateUserUseCase";
-
+import { Controller } from "../../core/protocols/Controller";
+import { CreateUserUseCase } from "../../domain/use-cases/CreateUserUseCase";
 import { IPostUserSignUp } from "../dtos/IPostUserSignUp";
 import { PostUserSignUpValidator } from "../validators/PostUserSignUpValidator";
 

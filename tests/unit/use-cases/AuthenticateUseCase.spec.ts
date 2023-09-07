@@ -1,13 +1,11 @@
 import { faker } from "@faker-js/faker/locale/pt_BR";
 import { container } from "tsyringe";
 
-import { CreateSessionUseCase } from "@domain/use-cases/CreateSessionUseCase";
-
-import { UserRepository } from "@infrastructure/database/repositories/UserRepository";
-
 import { HashAdapter } from "../../../src/core/adapters/HashAdapter";
 import { UnauthorizedError } from "../../../src/core/errors/http/UnauthorizedError";
 import { AuthenticateUseCase } from "../../../src/domain/use-cases/AuthenticateUseCase";
+import { CreateSessionUseCase } from "../../../src/domain/use-cases/CreateSessionUseCase";
+import { UserRepository } from "../../../src/infrastructure/database/repositories/UserRepository";
 
 describe("AuthenticateUseCase", () => {
     const userRepository = container.resolve(UserRepository);

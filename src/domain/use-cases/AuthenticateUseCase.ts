@@ -1,11 +1,9 @@
 import { autoInjectable, singleton } from "tsyringe";
 
-import { IPostUserSignIn } from "@application/dtos/IPostUserSignIn";
-
-import { HashAdapter } from "@core/adapters/HashAdapter";
-import { UnauthorizedError } from "@core/errors/http/UnauthorizedError";
-
-import { UserRepository } from "@infrastructure/database/repositories/UserRepository";
+import { IPostUserSignIn } from "../../application/dtos/IPostUserSignIn";
+import { HashAdapter } from "../../core/adapters/HashAdapter";
+import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
+import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
 
 import { CreateSessionUseCase } from "./CreateSessionUseCase";
 

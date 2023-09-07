@@ -2,9 +2,8 @@ import { faker } from "@faker-js/faker/locale/pt_BR";
 import jwt from "jsonwebtoken";
 import { container } from "tsyringe";
 
-import { CreateSessionUseCase } from "@domain/use-cases/CreateSessionUseCase";
-
-import { SessionRepository } from "@infrastructure/database/repositories/SessionRepository";
+import { CreateSessionUseCase } from "../../../src/domain/use-cases/CreateSessionUseCase";
+import { SessionRepository } from "../../../src/infrastructure/database/repositories/SessionRepository";
 
 describe("CreateSessionUseCase", () => {
     const sessionRepository = container.resolve(SessionRepository);

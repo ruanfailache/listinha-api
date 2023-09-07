@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
 import { autoInjectable, singleton } from "tsyringe";
 
-import { Env } from "@core/constants/env";
-
-import { SessionRepository } from "@infrastructure/database/repositories/SessionRepository";
+import { Env } from "../../core/constants/env";
+import { SessionRepository } from "../../infrastructure/database/repositories/SessionRepository";
 
 @singleton()
 @autoInjectable()
