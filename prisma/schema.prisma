@@ -68,7 +68,7 @@ model products {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
-    productLists            productLists[]
+    productListItems        productListItems[]
     usersProductInventories usersProductInventories[]
 
     @@index([name])
@@ -90,19 +90,36 @@ model markets {
     @@index([name])
 }
 
-model productLists {
+model productListItems {
     id String @id @default(uuid())
 
-    userId    String @map("user_id")
-    productId String @map("product_id")
-    marketId  String @map("market_id")
+    productId     String @map("product_id")
+    productListId String @map("product_list_id")
+    quantity      Int
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
-    user    users    @relation(fields: [userId], references: [id])
-    product products @relation(fields: [productId], references: [id])
-    market  markets  @relation(fields: [marketId], references: [id])
+    product     products     @relation(fields: [productId], references: [id])
+    productList productLists @relation(fields: [productListId], references: [id])
+
+    @@map("product_list_items")
+}
+
+model productLists {
+    id String @id @default(uuid())
+
+    name     String
+    userId   String @map("user_id")
+    marketId String @map("market_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    user   users   @relation(fields: [userId], references: [id])
+    market markets @relation(fields: [marketId], references: [id])
+
+    productListsItems productListItems[]
 
     @@index([userId])
     @@map("product_lists")
