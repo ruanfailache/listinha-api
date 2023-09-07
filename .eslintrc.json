@@ -41,9 +41,14 @@
                 "newlinesBetween": "always",
                 "groups": [
                     "module",
+                    "/^@application/",
+                    "/^@core/",
+                    "/^@domain/",
+                    "/^@infrastructure/",
                     "parent",
                     "sibling",
-                    "index"
+                    "index",
+                    "/@listinha/app/"
                 ],
                 "alphabetize": {
                     "order": "asc",

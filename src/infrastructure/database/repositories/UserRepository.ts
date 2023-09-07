@@ -1,7 +1,8 @@
 import { users } from "@prisma/client";
 import { singleton } from "tsyringe";
 
-import { ICreateUser } from "../../../domain/entities/User";
+import { ICreateUser } from "@domain/entities/User";
+
 import { PrismaDatabase } from "../config/PrismaDatabase";
 
 @singleton()
