@@ -8,4 +8,14 @@ export class PrismaDatabase {
     constructor() {
         this.client = new PrismaClient();
     }
+
+    static async clearDatabase() {
+        const client = new PrismaClient();
+
+        await client.$queryRaw`
+            TRUNCATE sessions, 
+                     users
+            CASCADE;
+        `;
+    }
 }

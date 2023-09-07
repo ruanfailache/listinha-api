@@ -2,7 +2,10 @@ import { faker } from "@faker-js/faker/locale/pt_BR";
 import supertest from "supertest";
 
 import app from "../../src/app";
+import { PrismaDatabase } from "../../src/infrastructure/database/config/PrismaDatabase";
 import { UserFactory } from "../factories/UserFactory";
+
+afterAll(PrismaDatabase.clearDatabase);
 
 describe("POST /user/sign-in", () => {
     it("Should ensure throws BadRequestError on empty email", async () => {
@@ -57,16 +60,14 @@ describe("POST /user/sign-in", () => {
     });
 
     it("Should ensure returns correct values on success", async () => {
-        const fakeEmail = faker.internet.email();
         const fakePassword = faker.internet.password();
 
-        await UserFactory.create({
-            email: fakeEmail,
+        const createdUser = await UserFactory.create({
             password: fakePassword,
         });
 
         const response = await supertest(app).post("/user/sign-in").send({
-            email: fakeEmail,
+            email: createdUser.email,
             password: fakePassword,
         });
 

@@ -3,15 +3,11 @@ import { autoInjectable, singleton } from "tsyringe";
 
 import { Env } from "../../core/constants/env";
 import { SessionRepository } from "../../infrastructure/database/repositories/SessionRepository";
-import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
 
 @singleton()
 @autoInjectable()
 export class CreateSessionUseCase {
-    constructor(
-        private readonly sessionRepository: SessionRepository,
-        private readonly userRepository: UserRepository,
-    ) {}
+    constructor(private readonly sessionRepository: SessionRepository) {}
 
     async execute(userId: string, payload: Record<string, string>) {
         const createdSession = await this.sessionRepository.create(

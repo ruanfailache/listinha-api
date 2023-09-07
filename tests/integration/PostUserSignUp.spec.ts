@@ -1,9 +1,11 @@
 import { faker } from "@faker-js/faker/locale/pt_BR";
 import supertest from "supertest";
-import { container } from "tsyringe";
 
 import app from "../../src/app";
-import { UserRepository } from "../../src/infrastructure/database/repositories/UserRepository";
+import { PrismaDatabase } from "../../src/infrastructure/database/config/PrismaDatabase";
+import { UserFactory } from "../factories/UserFactory";
+
+afterAll(PrismaDatabase.clearDatabase);
 
 describe("POST /user/sign-up", () => {
     it("Should ensure throws BadRequestError on empty email", async () => {
@@ -47,16 +49,10 @@ describe("POST /user/sign-up", () => {
     });
 
     it("Should ensure throws ConflictError on registered email", async () => {
-        const fakeEmail = faker.internet.email();
-
-        await container.resolve(UserRepository).create({
-            email: fakeEmail,
-            name: faker.person.fullName(),
-            password: faker.internet.password(),
-        });
+        const createdUser = await UserFactory.create();
 
         const response = await supertest(app).post("/user/sign-up").send({
-            email: fakeEmail,
+            email: createdUser.email,
             name: faker.person.fullName(),
             password: faker.internet.password(),
         });
@@ -65,14 +61,10 @@ describe("POST /user/sign-up", () => {
     });
 
     it("Should ensure returns correct values on success", async () => {
-        const fakeEmail = faker.internet.email();
-        const fakeName = faker.person.fullName();
-        const fakePassword = faker.internet.password();
-
         const response = await supertest(app).post("/user/sign-up").send({
-            email: fakeEmail,
-            name: fakeName,
-            password: fakePassword,
+            email: faker.internet.email(),
+            name: faker.person.fullName(),
+            password: faker.internet.password(),
         });
 
         expect(response.status).toBe(201);

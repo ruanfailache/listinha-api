@@ -2,9 +2,9 @@ import { autoInjectable, singleton } from "tsyringe";
 
 import { IPostUserSignIn } from "../../application/dtos/IPostUserSignIn";
 import { HashAdapter } from "../../core/adapters/HashAdapter";
-import { ConflictError } from "../../core/errors/http/ConflictError";
 import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
 import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
+
 import { CreateSessionUseCase } from "./CreateSessionUseCase";
 
 @singleton()
@@ -19,7 +19,7 @@ export class AuthenticateUserUseCase {
         const foundUser = await this.userRepository.findByEmail(email);
 
         if (!foundUser) {
-            throw new ConflictError({
+            throw new UnauthorizedError({
                 message: "User credentials are invalid!",
             });
         }

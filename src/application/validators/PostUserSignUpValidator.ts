@@ -7,8 +7,8 @@ import { Validator } from "../../core/protocols/Validator";
 export class PostUserSignUpValidator extends Validator {
     schema(): z.ZodType {
         return z.object({
-            email: z.string().email().trim().toLowerCase(),
-            name: z.string().trim().min(1),
+            email: z.string().email(),
+            name: z.string().min(1),
             password: z.string().min(6, "Password must have at least 6 characters"),
         });
     }

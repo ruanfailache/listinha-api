@@ -7,7 +7,7 @@ import { Validator } from "../../core/protocols/Validator";
 export class PostUserSignInValidator extends Validator {
     schema(): z.ZodType {
         return z.object({
-            email: z.string().email().trim().toLowerCase(),
+            email: z.string().email(),
             password: z.string().min(1, "Password should not be empty!"),
         });
     }

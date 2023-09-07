@@ -4,6 +4,7 @@ import { IPostUserSignUp } from "../../application/dtos/IPostUserSignUp";
 import { HashAdapter } from "../../core/adapters/HashAdapter";
 import { ConflictError } from "../../core/errors/http/ConflictError";
 import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
+
 import { CreateSessionUseCase } from "./CreateSessionUseCase";
 
 @singleton()
