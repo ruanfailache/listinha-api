@@ -11,7 +11,7 @@ import { CreateSessionUseCase } from "./CreateSessionUseCase";
 
 @singleton()
 @autoInjectable()
-export class AuthenticateUserUseCase {
+export class AuthenticateUseCase {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly createSessionUseCase: CreateSessionUseCase,

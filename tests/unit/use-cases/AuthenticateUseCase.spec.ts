@@ -1,19 +1,19 @@
 import { faker } from "@faker-js/faker/locale/pt_BR";
 import { container } from "tsyringe";
 
-import { AuthenticateUserUseCase } from "@domain/use-cases/AuthenticateUserUseCase";
 import { CreateSessionUseCase } from "@domain/use-cases/CreateSessionUseCase";
 
 import { UserRepository } from "@infrastructure/database/repositories/UserRepository";
 
 import { HashAdapter } from "../../../src/core/adapters/HashAdapter";
 import { UnauthorizedError } from "../../../src/core/errors/http/UnauthorizedError";
+import { AuthenticateUseCase } from "../../../src/domain/use-cases/AuthenticateUseCase";
 
-describe("AuthenticateUserUseCase", () => {
+describe("AuthenticateUseCase", () => {
     const userRepository = container.resolve(UserRepository);
     const createSessionUseCase = container.resolve(CreateSessionUseCase);
 
-    const sut = new AuthenticateUserUseCase(userRepository, createSessionUseCase);
+    const sut = new AuthenticateUseCase(userRepository, createSessionUseCase);
 
     test("Should ensure throws UnauthorizedError on email not registered", async () => {
         jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce(null);

@@ -3,7 +3,7 @@ import { autoInjectable } from "tsyringe";
 
 import { Controller } from "@core/protocols/Controller";
 
-import { AuthenticateUserUseCase } from "@domain/use-cases/AuthenticateUserUseCase";
+import { AuthenticateUseCase } from "@domain/use-cases/AuthenticateUseCase";
 
 import { IPostUserSignIn } from "../dtos/IPostUserSignIn";
 import { PostUserSignInValidator } from "../validators/PostUserSignInValidator";
@@ -12,7 +12,7 @@ import { PostUserSignInValidator } from "../validators/PostUserSignInValidator";
 export class PostUserSignInController extends Controller {
     constructor(
         private readonly postUserSignInValidator: PostUserSignInValidator,
-        private readonly authenticateUserUseCase: AuthenticateUserUseCase,
+        private readonly authenticateUserUseCase: AuthenticateUseCase,
     ) {
         super();
     }
