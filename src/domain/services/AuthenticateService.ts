@@ -78,12 +78,7 @@ export class AuthenticateService {
         };
     }
 
-    async validateToken(token?: string): Promise<string> {
-        if (!token) {
-            throw new UnauthorizedError({
-                message: "User unauthenticated!",
-            });
-        }
+    async validateToken(token: string): Promise<string> {
         try {
             const payload = jwt.verify(token, Env.JwtSecretKey) as JwtPayload;
             return payload.id;

@@ -11,8 +11,8 @@ app.use(express.json());
 
 app.use("/api", Router);
 
-app.get("/env", Middlewares.Authenticate.middleware, (request, response) => {
-    response.send(process.env);
+app.get("/env", Middlewares.Authenticate.middleware, (req, res) => {
+    res.send(process.env);
 });
 
 app.use(Middlewares.Error.middleware);
