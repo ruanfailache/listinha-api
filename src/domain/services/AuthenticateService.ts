@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { autoInjectable, singleton } from "tsyringe";
 
 import { IPostUserSignIn } from "../../application/dtos/IPostUserSignIn";
@@ -49,8 +49,7 @@ export class AuthenticateService {
         return {
             userId: foundUser.id,
             token: await this.createSession(foundUser.id, {
-                email,
-                password,
+                id: foundUser.id,
             }),
         };
     }
@@ -77,5 +76,21 @@ export class AuthenticateService {
                 password,
             }),
         };
+    }
+
+    async validateToken(token?: string): Promise<string> {
+        if (!token) {
+            throw new UnauthorizedError({
+                message: "User unauthenticated!",
+            });
+        }
+        try {
+            const payload = jwt.verify(token, Env.JwtSecretKey) as JwtPayload;
+            return payload.id;
+        } catch (err) {
+            throw new UnauthorizedError({
+                message: "User unauthenticated!",
+            });
+        }
     }
 }

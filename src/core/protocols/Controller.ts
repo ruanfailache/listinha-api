@@ -1,13 +1,19 @@
-import { Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+
+export interface IHttpRequest extends Request {
+    user?: {
+        id: string;
+    };
+}
 
 export abstract class Controller {
-    abstract handler(request: Request, response: Response): Promise<void>;
+    abstract handler(request: IHttpRequest, response: Response): Promise<void>;
 
-    route: RequestHandler = async (request, response, next) => {
+    async route(request: IHttpRequest, response: Response, next: NextFunction): Promise<void> {
         try {
             await this.handler(request, response);
         } catch (err) {
             next(err);
         }
-    };
+    }
 }
