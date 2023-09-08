@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { Controllers } from "../../../core/containers/controllers";
+import { Controllers } from "../../../core/containers/Controllers";
 
 const UserRouter = Router();
 
