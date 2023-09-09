@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 import { describe } from "node:test";
 import { container } from "tsyringe";
 
+import { AuthenticateService } from "../../../src/application/services/AuthenticateService";
 import { HashAdapter } from "../../../src/core/adapters/HashAdapter";
 import { ConflictError } from "../../../src/core/errors/http/ConflictError";
 import { UnauthorizedError } from "../../../src/core/errors/http/UnauthorizedError";
-import { AuthenticateService } from "../../../src/domain/services/AuthenticateService";
 import { SessionRepository } from "../../../src/infrastructure/database/repositories/SessionRepository";
 import { UserRepository } from "../../../src/infrastructure/database/repositories/UserRepository";
 import { UserFactory } from "../../factories/UserFactory";

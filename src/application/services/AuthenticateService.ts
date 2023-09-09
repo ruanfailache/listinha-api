@@ -1,14 +1,14 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { autoInjectable, singleton } from "tsyringe";
 
-import { IPostUserSignIn } from "../../application/dtos/IPostUserSignIn";
-import { IPostUserSignUp } from "../../application/dtos/IPostUserSignUp";
 import { HashAdapter } from "../../core/adapters/HashAdapter";
 import { Env } from "../../core/constants/env";
 import { ConflictError } from "../../core/errors/http/ConflictError";
 import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
 import { SessionRepository } from "../../infrastructure/database/repositories/SessionRepository";
 import { UserRepository } from "../../infrastructure/database/repositories/UserRepository";
+import { IPostUserSignIn } from "../dtos/IPostUserSignIn";
+import { IPostUserSignUp } from "../dtos/IPostUserSignUp";
 
 @singleton()
 @autoInjectable()

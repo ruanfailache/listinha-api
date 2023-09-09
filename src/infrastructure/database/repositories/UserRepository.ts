@@ -1,7 +1,7 @@
 import { users } from "@prisma/client";
 import { singleton } from "tsyringe";
 
-import { ICreateUser } from "../../../domain/entities/User";
+import { IPostUserSignUp } from "../../../application/dtos/IPostUserSignUp";
 import { PrismaDatabase } from "../config/PrismaDatabase";
 
 @singleton()
@@ -14,7 +14,7 @@ export class UserRepository {
         });
     }
 
-    async create({ email, name, password }: ICreateUser): Promise<users> {
+    async create({ email, name, password }: IPostUserSignUp): Promise<users> {
         return this.database.client.users.create({
             data: {
                 email,

@@ -2,8 +2,8 @@ import e from "express";
 import { autoInjectable } from "tsyringe";
 
 import { Controller } from "../../core/protocols/Controller";
-import { AuthenticateService } from "../../domain/services/AuthenticateService";
 import { IPostUserSignIn } from "../dtos/IPostUserSignIn";
+import { AuthenticateService } from "../services/AuthenticateService";
 import { PostUserSignInValidator } from "../validators/PostUserSignInValidator";
 
 @autoInjectable()

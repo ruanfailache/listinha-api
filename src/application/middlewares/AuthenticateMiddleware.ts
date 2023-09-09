@@ -3,7 +3,7 @@ import { autoInjectable } from "tsyringe";
 
 import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
 import { Middleware } from "../../core/protocols/Middleware";
-import { AuthenticateService } from "../../domain/services/AuthenticateService";
+import { AuthenticateService } from "../services/AuthenticateService";
 
 @autoInjectable()
 export class AuthenticateMiddleware extends Middleware {
