@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker/locale/pt_BR";
+import { fail } from "assert";
 import jwt from "jsonwebtoken";
 import { describe } from "node:test";
 import { container } from "tsyringe";
@@ -143,6 +144,32 @@ describe("AuthenticateService", () => {
             expect(sut.createSession).toHaveBeenCalled();
             expect(res.token).toBe(token);
             expect(res.userId).toBe(userId);
+        });
+    });
+
+    describe("validateToken", () => {
+        test("Should ensure throws UnauthorizedError on invalid token", async () => {
+            jest.spyOn(jwt, "verify").mockImplementationOnce(() => {
+                throw new Error();
+            });
+            try {
+                await sut.validateToken(faker.string.uuid());
+                fail("Should throws UnauthorizedError!");
+            } catch (err) {
+                expect(err).toBeInstanceOf(UnauthorizedError);
+            }
+        });
+
+        test("Should ensure returns correctly on validateToken", async () => {
+            const payload = {
+                id: faker.string.uuid(),
+            };
+
+            jest.spyOn(jwt, "verify").mockImplementationOnce(() => payload);
+
+            const result = await sut.validateToken(faker.string.uuid());
+
+            expect(result).toBe(payload.id);
         });
     });
 });

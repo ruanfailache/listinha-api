@@ -9,7 +9,7 @@ afterAll(PrismaDatabase.clearDatabase);
 
 describe("POST /user/sign-up", () => {
     it("Should ensure throws BadRequestError on empty email", async () => {
-        const response = await supertest(app).post("/user/sign-up").send({
+        const response = await supertest(app).post("/api/user/sign-up").send({
             email: "",
             name: faker.person.fullName(),
             password: faker.internet.password(),
@@ -19,7 +19,7 @@ describe("POST /user/sign-up", () => {
     });
 
     it("Should ensure throws BadRequestError on invalid email", async () => {
-        const response = await supertest(app).post("/user/sign-up").send({
+        const response = await supertest(app).post("/api/user/sign-up").send({
             email: faker.lorem.words(),
             name: faker.person.fullName(),
             password: faker.internet.password(),
@@ -29,7 +29,7 @@ describe("POST /user/sign-up", () => {
     });
 
     it("Should ensure throws BadRequestError on empty password", async () => {
-        const response = await supertest(app).post("/user/sign-up").send({
+        const response = await supertest(app).post("/api/user/sign-up").send({
             email: faker.internet.email(),
             name: faker.person.fullName(),
             password: "",
@@ -39,7 +39,7 @@ describe("POST /user/sign-up", () => {
     });
 
     it("Should ensure throws BadRequestError on empty name", async () => {
-        const response = await supertest(app).post("/user/sign-up").send({
+        const response = await supertest(app).post("/api/user/sign-up").send({
             email: faker.internet.email(),
             name: "",
             password: faker.internet.password(),
@@ -51,7 +51,7 @@ describe("POST /user/sign-up", () => {
     it("Should ensure throws ConflictError on registered email", async () => {
         const createdUser = await UserFactory.create();
 
-        const response = await supertest(app).post("/user/sign-up").send({
+        const response = await supertest(app).post("/api/user/sign-up").send({
             email: createdUser.email,
             name: faker.person.fullName(),
             password: faker.internet.password(),
@@ -61,7 +61,7 @@ describe("POST /user/sign-up", () => {
     });
 
     it("Should ensure returns correct values on success", async () => {
-        const response = await supertest(app).post("/user/sign-up").send({
+        const response = await supertest(app).post("/api/user/sign-up").send({
             email: faker.internet.email(),
             name: faker.person.fullName(),
             password: faker.internet.password(),

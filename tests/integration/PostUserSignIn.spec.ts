@@ -9,7 +9,7 @@ afterAll(PrismaDatabase.clearDatabase);
 
 describe("POST /user/sign-in", () => {
     it("Should ensure throws BadRequestError on empty email", async () => {
-        const response = await supertest(app).post("/user/sign-in").send({
+        const response = await supertest(app).post("/api/user/sign-in").send({
             email: "",
             password: faker.internet.password(),
         });
@@ -18,7 +18,7 @@ describe("POST /user/sign-in", () => {
     });
 
     it("Should ensure throws BadRequestError on invalid email", async () => {
-        const response = await supertest(app).post("/user/sign-in").send({
+        const response = await supertest(app).post("/api/user/sign-in").send({
             email: faker.lorem.words(),
             password: faker.internet.password(),
         });
@@ -27,7 +27,7 @@ describe("POST /user/sign-in", () => {
     });
 
     it("Should ensure throws BadRequestError on empty password", async () => {
-        const response = await supertest(app).post("/user/sign-in").send({
+        const response = await supertest(app).post("/api/user/sign-in").send({
             email: faker.internet.email(),
             password: "",
         });
@@ -36,7 +36,7 @@ describe("POST /user/sign-in", () => {
     });
 
     it("Should ensure throws UnauthorizedError on invalid email", async () => {
-        const response = await supertest(app).post("/user/sign-in").send({
+        const response = await supertest(app).post("/api/user/sign-in").send({
             email: faker.internet.email(),
             password: faker.internet.password(),
         });
@@ -51,7 +51,7 @@ describe("POST /user/sign-in", () => {
             email: fakeEmail,
         });
 
-        const response = await supertest(app).post("/user/sign-in").send({
+        const response = await supertest(app).post("/api/user/sign-in").send({
             email: fakeEmail,
             password: faker.internet.password(),
         });
@@ -66,7 +66,7 @@ describe("POST /user/sign-in", () => {
             password: fakePassword,
         });
 
-        const response = await supertest(app).post("/user/sign-in").send({
+        const response = await supertest(app).post("/api/user/sign-in").send({
             email: createdUser.email,
             password: fakePassword,
         });
