@@ -1,8 +1,7 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { autoInjectable, singleton } from "tsyringe";
 
 import { HashAdapter } from "../../core/adapters/HashAdapter";
-import { Env } from "../../core/constants/env";
+import { JwtAdapter } from "../../core/adapters/JwtAdapter";
 import { ConflictError } from "../../core/errors/http/ConflictError";
 import { UnauthorizedError } from "../../core/errors/http/UnauthorizedError";
 import { SessionRepository } from "../../infrastructure/database/repositories/SessionRepository";
@@ -14,19 +13,16 @@ import { IPostUserSignUp } from "../dtos/IPostUserSignUp";
 @autoInjectable()
 export class AuthenticateService {
     constructor(
+        private readonly jwtAdapter: JwtAdapter,
+        private readonly hashAdapter: HashAdapter,
         private readonly userRepository: UserRepository,
         private readonly sessionRepository: SessionRepository,
     ) {}
 
     async createSession(userId: string, payload: Record<string, string>) {
-        const createdSession = await this.sessionRepository.create(
-            userId,
-            jwt.sign(payload, Env.JwtSecretKey, {
-                expiresIn: "2h",
-            }),
-        );
-
-        return createdSession.token;
+        const token = this.jwtAdapter.generate(payload, "2h");
+        await this.sessionRepository.create(userId, token);
+        return token;
     }
 
     async signIn({ email, password }: IPostUserSignIn) {
@@ -38,7 +34,7 @@ export class AuthenticateService {
             });
         }
 
-        const isCorrectPassword = HashAdapter.compare(password, foundUser.password);
+        const isCorrectPassword = this.hashAdapter.compare(password, foundUser.password);
 
         if (!isCorrectPassword) {
             throw new UnauthorizedError({
@@ -66,7 +62,7 @@ export class AuthenticateService {
         const createdUser = await this.userRepository.create({
             email,
             name,
-            password: HashAdapter.encrypt(password),
+            password: this.hashAdapter.encrypt(password),
         });
 
         return {
@@ -80,7 +76,7 @@ export class AuthenticateService {
 
     async validateToken(token: string): Promise<string> {
         try {
-            const payload = jwt.verify(token, Env.JwtSecretKey) as JwtPayload;
+            const payload = this.jwtAdapter.compare(token);
             return payload.id;
         } catch (err) {
             throw new UnauthorizedError({
